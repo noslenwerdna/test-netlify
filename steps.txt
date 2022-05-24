@@ -1,0 +1,96 @@
+# mk current dir, tooling will it miss
+mkdir tooling_will_it_miss
+cd !$
+
+# mk src, where code lives, but don't cd to it
+mkdir src
+
+# initialize repository
+git init
+
+# turn directory into npm package
+npm init --force
+
+# grab or write your own source code
+# for example
+gh repo clone remy/mdn-will-it-miss
+
+# install tools. save-dev means these tools are only needed
+# for development, not needed in product. This makes deployment
+# easier
+npm install --save-dev eslint prettier babel-eslint
+
+# config prettier
+To configure Prettier, give .prettierrc.json the following contents:
+
+{
+  "singleQuote": true,
+  "trailingComma": "es5"
+}
+
+# config eslint
+To configure ESLint, give .eslintrc.json the following contents:
+{
+  "env": {
+    "es6": true,
+    "browser": true
+  },
+  "extends": ["eslint:recommended", "plugin:react/recommended"],
+  "parserOptions": {
+    "ecmaVersion": 6,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "plugins": ["react"],
+  "rules": {
+    "semi": "error",
+    "no-console": 0,
+    "react/jsx-uses-vars": "error"
+  }
+}
+
+without react, it would look like this
+{
+  "env": {
+    "es6": true,
+    "browser": true
+  },
+  "extends": "eslint:recommended",
+  "parserOptions": {
+    "ecmaVersion": 6,
+    "sourceType": "module"
+  },
+  "rules": {
+    "no-console": 0
+  }
+}
+
+# run this command to add react to the dependency list
+npm install --save-dev eslint-plugin-react
+
+# install parcel for bundling and creating test webserver
+npm install --save-dev parcel-bundler
+
+# use future css features. (nested css). 
+# PostCSS translates between future css features and current
+# natively supported css
+Add a single file called .postcssrc to the root of your project directory.
+{
+  "plugins": {
+    "postcss-preset-env": {
+      "stage": 0
+    }
+  }
+}
+
+# run the parcel server 
+npx parcel src/index.html
+
+# add the build command to package.json
+"scripts": {
+  ...
+  "build": "parcel build src/index.html"
+}
+
