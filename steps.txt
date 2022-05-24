@@ -94,3 +94,19 @@ npx parcel src/index.html
   "build": "parcel build src/index.html"
 }
 
+# git - check directory
+git status
+
+# add changes to stage
+git add .
+
+# commit the code
+git commit -m "initial code"
+
+# add github directory remote location to git repository
+git remote add github https://github.com/noslenwerdna/test-netlify.git
+
+# push to github - mine uses master for some reason?
+git push github main 
+
+# connect it with netlify
